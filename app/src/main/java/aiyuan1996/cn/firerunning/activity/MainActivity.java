@@ -1,5 +1,11 @@
 package aiyuan1996.cn.firerunning.activity;
 
+import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -9,16 +15,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import aiyuan1996.cn.firerunning.R;
+import aiyuan1996.cn.firerunning.Utils.PushUtil;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    public static boolean isForeground = false;
+    private static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +52,36 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle(R.string.dialog_title).setMessage(R.string.dialog_message);
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(MainActivity.this,"从服务器获取地图",Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setCancelable(false);
+        builder.create().show();
+        registerMessageReceiver();  // used for receive msg
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mMessageReceiver);
+        super.onDestroy();
+    }
+    @Override
+    protected void onResume() {
+        isForeground = true;
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause() {
+        isForeground = false;
+        super.onPause();
     }
 
     @Override
@@ -85,11 +124,17 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-            Toast.makeText(this,"nav_camera",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"nav_camera",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(),webViewActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_gallery) {
             Toast.makeText(this,"nav_gallery",Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_slideshow) {
-            Toast.makeText(this,"nav_slideshow",Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_push) {
+            Log.d(TAG, "消息推送1");
+            Intent intent = new Intent(getApplicationContext(), PushSetActivity.class);
+            Log.d(TAG, "消息推送2");
+            this.startActivity(intent);
+            Log.d(TAG, "消息推送3");
         } else if (id == R.id.nav_manage) {
             Toast.makeText(this,"nav_manage",Toast.LENGTH_SHORT).show();
         }
@@ -97,4 +142,40 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    //for receive customer msg from jpush server
+    private MessageReceiver mMessageReceiver;
+    public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_MESSAGE = "message";
+    public static final String KEY_EXTRAS = "extras";
+
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(MESSAGE_RECEIVED_ACTION);
+        registerReceiver(mMessageReceiver, filter);
+    }
+
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+                String messge = intent.getStringExtra(KEY_MESSAGE);
+                String extras = intent.getStringExtra(KEY_EXTRAS);
+                StringBuilder showMsg = new StringBuilder();
+                showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
+                if (!PushUtil.isEmpty(extras)) {
+                    showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
+                }
+                new  android.support.v7.app.AlertDialog.Builder(MainActivity.this).
+                        setTitle("您的专属消息").setMessage(messge).setPositiveButton("确定" ,  null)
+                        .setCancelable(false).show();
+            }
+        }
+    }
+
+
 }

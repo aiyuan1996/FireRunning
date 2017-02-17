@@ -7,6 +7,13 @@
     android:fitsSystemWindows="true"
     tools:context="aiyuan1996.cn.firerunning.activity.MainActivity">
 
+    <aiyuan1996.cn.firerunning.Utils.PinchImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/map"
+
+        android:src="@drawable/test"/>
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

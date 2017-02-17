@@ -3,6 +3,7 @@ package aiyuan1996.cn.firerunning.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -13,10 +14,12 @@ import aiyuan1996.cn.firerunning.Utils.ProgressGenerator;
 
 public class LoginActivity extends Activity implements ProgressGenerator.OnCompleteListener {
 
+    private static final String TAG = "LoginActivity";
     public static final String EXTRAS_ENDLESS_MODE = "EXTRAS_ENDLESS_MODE";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate: LoginActivity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
