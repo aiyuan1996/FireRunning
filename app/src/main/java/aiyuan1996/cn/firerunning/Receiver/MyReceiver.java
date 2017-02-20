@@ -15,13 +15,14 @@ import java.net.URL;
 import java.util.Iterator;
 
 import aiyuan1996.cn.firerunning.Utils.PushUtil;
-import aiyuan1996.cn.firerunning.activity.MainActivity;
-import aiyuan1996.cn.firerunning.activity.TestActivity;
+import aiyuan1996.cn.firerunning.ui.MainActivity;
+import aiyuan1996.cn.firerunning.ui.PushActivity.TestActivity;
 import cn.jpush.android.api.JPushInterface;
 
 /**
  * 自定义接收器
- * 
+ * Created by aiyuan on 2017/2/20
+ *
  * 如果不定义这个 Receiver，则：
  * 1) 默认用户会打开主界面
  * 2) 接收不到自定义消息

@@ -1,4 +1,4 @@
-package aiyuan1996.cn.firerunning.activity;
+package aiyuan1996.cn.firerunning.ui.PushActivity;
 
 import android.app.Notification;
 import android.content.Intent;
@@ -27,6 +27,9 @@ import cn.jpush.android.api.TagAliasCallback;
 
 import static aiyuan1996.cn.firerunning.R.mipmap.ic_launcher;
 
+/**
+ *Created by aiyuan on 2017/2/20
+ */
 
 public class PushSetActivity extends InstrumentedActivity implements OnClickListener {
 	private static final String TAG = "PushSetActivity";

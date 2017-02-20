@@ -1,4 +1,4 @@
-package aiyuan1996.cn.firerunning.activity;
+package aiyuan1996.cn.firerunning.ui.PushActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import cn.jpush.android.api.JPushInterface;
 
+/**
+ * Created by aiyuan on 2017/2/20
+ */
 public class TestActivity extends Activity {
 
     @Override

@@ -18,6 +18,10 @@ import java.util.regex.Pattern;
 
 import cn.jpush.android.api.JPushInterface;
 
+
+/**
+ * Created by aiyuan on 2017/2/20
+ */
 public class PushUtil {
     public static final String PREFS_NAME = "JPUSH_EXAMPLE";
     public static final String PREFS_DAYS = "JPUSH_EXAMPLE_DAYS";
@@ -30,9 +34,7 @@ public class PushUtil {
             return true;
         if (s.length() == 0)
             return true;
-        if (s.trim().length() == 0)
-            return true;
-        return false;
+        return s.trim().length() == 0;
     }
     
     // 校验Tag Alias 只能是数字,英文字母和中文

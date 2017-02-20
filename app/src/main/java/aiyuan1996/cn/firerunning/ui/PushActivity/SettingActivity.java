@@ -1,4 +1,4 @@
-package aiyuan1996.cn.firerunning.activity;
+package aiyuan1996.cn.firerunning.ui.PushActivity;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -21,6 +21,10 @@ import aiyuan1996.cn.firerunning.Utils.PushUtil;
 import cn.jpush.android.api.InstrumentedActivity;
 import cn.jpush.android.api.JPushInterface;
 
+
+/**
+ * Created by aiyuan on 2017/2/20
+ */
 public class SettingActivity extends InstrumentedActivity implements OnClickListener {
 	TimePicker startTime;
 	TimePicker endTime;

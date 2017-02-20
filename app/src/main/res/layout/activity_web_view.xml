@@ -4,7 +4,7 @@
     android:id="@+id/activity_web_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="aiyuan1996.cn.firerunning.activity.webViewActivity">
+    tools:context="aiyuan1996.cn.firerunning.ui.PushActivity.webViewActivity">
 
     <WebView
         android:id="@+id/webview"

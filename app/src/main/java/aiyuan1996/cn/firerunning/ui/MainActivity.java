@@ -1,4 +1,4 @@
-package aiyuan1996.cn.firerunning.activity;
+package aiyuan1996.cn.firerunning.ui;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -23,7 +23,13 @@ import android.widget.Toast;
 
 import aiyuan1996.cn.firerunning.R;
 import aiyuan1996.cn.firerunning.Utils.PushUtil;
+import aiyuan1996.cn.firerunning.ui.PushActivity.PushSetActivity;
+import aiyuan1996.cn.firerunning.ui.PushActivity.webViewActivity;
 
+
+/**
+ * Created by aiyuan on 2017/2/20
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public static boolean isForeground = false;
