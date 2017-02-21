@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_login)
     public void onLogin(View view) {
-        String phone = mPhone.getText().toString().trim();
+        final String phone = mPhone.getText().toString().trim();
         String password = mPassword.getText().toString().trim();
         Log.d(TAG, "onLogin: ");
         if (!TextUtils.isEmpty(phone) & !TextUtils.isEmpty(password)) {
@@ -83,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (user != null) {
                         Log.d(TAG, "用户登陆成功");
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("tel",phone);
                         startActivity(intent);
                     } else {
                         //ToastUtils.showShort(getApplicationContext(), getString(R.string.text_login_failure)+ e.toString());
@@ -94,7 +95,6 @@ public class LoginActivity extends AppCompatActivity {
             ToastUtils.showShort(getApplicationContext(), getString(R.string.text_tost_empty));
         }
     }
-
     /**
      * 假设我现在输入用户名和密码，但是我不点击登录，而是直接退出了
      */
