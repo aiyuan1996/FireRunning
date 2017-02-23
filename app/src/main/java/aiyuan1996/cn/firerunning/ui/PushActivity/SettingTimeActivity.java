@@ -25,7 +25,7 @@ import cn.jpush.android.api.JPushInterface;
 /**
  * Created by aiyuan on 2017/2/20
  */
-public class SettingActivity extends InstrumentedActivity implements OnClickListener {
+public class SettingTimeActivity extends InstrumentedActivity implements OnClickListener {
 	TimePicker startTime;
 	TimePicker endTime;
 	CheckBox mMonday ;
@@ -109,7 +109,7 @@ public class SettingActivity extends InstrumentedActivity implements OnClickList
 		int startime = startTime.getCurrentHour();
 		int endtime = endTime.getCurrentHour();
 		if (startime > endtime) {
-			Toast.makeText(SettingActivity.this, "开始时间不能大于结束时间", Toast.LENGTH_SHORT).show();
+			Toast.makeText(SettingTimeActivity.this, "开始时间不能大于结束时间", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		StringBuffer daysSB = new StringBuffer();
@@ -152,7 +152,7 @@ public class SettingActivity extends InstrumentedActivity implements OnClickList
 		mEditor.putInt(PushUtil.PREFS_START_TIME, startime);
 		mEditor.putInt(PushUtil.PREFS_END_TIME, endtime);
 		mEditor.commit();
-		Toast.makeText(SettingActivity.this, R.string.setting_su, Toast.LENGTH_SHORT).show();
+		Toast.makeText(SettingTimeActivity.this, R.string.setting_su, Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
