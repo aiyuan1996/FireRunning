@@ -3,6 +3,7 @@ package aiyuan1996.cn.firerunning.ui.PushActivity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.KeyEvent;
@@ -18,14 +19,13 @@ import java.util.Set;
 
 import aiyuan1996.cn.firerunning.R;
 import aiyuan1996.cn.firerunning.Utils.PushUtil;
-import cn.jpush.android.api.InstrumentedActivity;
 import cn.jpush.android.api.JPushInterface;
 
 
 /**
  * Created by aiyuan on 2017/2/20
  */
-public class SettingTimeActivity extends InstrumentedActivity implements OnClickListener {
+public class SettingTimeActivity extends ActionBarActivity implements OnClickListener {
 	TimePicker startTime;
 	TimePicker endTime;
 	CheckBox mMonday ;

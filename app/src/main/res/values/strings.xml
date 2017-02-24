@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">FireRunning</string>
-    <string name="title_activity_main">主页面</string>
+    <string name="app_name">火灾逃生</string>
+    <string name="title_activity_main">地图</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -15,14 +15,16 @@
     <string name="error_tag_empty">tag不能为空</string>
     <string name="error_tag_gs_empty">格式不对</string>
     <string name="setting_su">设置成功</string>
-    <string name="title_PushActivity">推送界面</string>
     <string name="test_Activity">测试</string>
-    <string name="set_Activity">推送设置</string>
+    <string name="push_setting">推送设置</string>
+    <string name="setting">设置</string>
+    <string name="push_history">历史推送</string>
 
     <string name="text_login">登录</string>
     <string name="text_registered">新用户注册</string>
     <string name="text_find_password">忘记密码?</string>
-////    <string name="text_change_password">修改密码</string>
+    ////
+    <string name="text_change_password">修改密码</string>
 
     <string name="text_phone">注册时的手机号码</string>
     <string name="text_password_again">再次输入密码</string>
@@ -51,7 +53,8 @@
     <string name="text_two_input_not_consistent">两次输入的密码不一致</string>
     <string name="text_now_login">正在登陆...</string>
 
-//    <string name="text_phone_find">找回密码</string>
+    //
+    <string name="text_phone_find">找回密码</string>
     <string name="text_setting_password">重置密码</string>
     <string name="text_reset_sms_code">重新发送验证码</string>
     <string name="text_sms_code_reset_successfully">验证码发送成功</string>
@@ -60,5 +63,6 @@
     <string name="text_new_password">新密码</string>
     <string name="reset_successfully">重置密码成功</string>
     <string name="reset_failed">重置密码失败</string>
+    <string name="title_activity_spinner">SpinnerActivity</string>
 
 </resources>

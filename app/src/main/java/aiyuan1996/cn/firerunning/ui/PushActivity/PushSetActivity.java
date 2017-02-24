@@ -1,16 +1,22 @@
 package aiyuan1996.cn.firerunning.ui.PushActivity;
 
+import android.app.AlertDialog;
 import android.app.Notification;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.LinkedHashSet;
@@ -20,7 +26,6 @@ import aiyuan1996.cn.firerunning.R;
 import aiyuan1996.cn.firerunning.Utils.PushUtil;
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.CustomPushNotificationBuilder;
-import cn.jpush.android.api.InstrumentedActivity;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.MultiActionsNotificationBuilder;
 import cn.jpush.android.api.TagAliasCallback;
@@ -31,72 +36,98 @@ import static aiyuan1996.cn.firerunning.R.mipmap.ic_launcher;
  *Created by aiyuan on 2017/2/20
  */
 
-public class PushSetActivity extends InstrumentedActivity implements OnClickListener {
+public class PushSetActivity extends ActionBarActivity {
 	private static final String TAG = "PushSetActivity";
-
-	Button mSetTag;
-	Button mSetAlias;
-	Button mStyleBasic;
-	Button mStyleAddActions;
-	Button mStyleCustom;
-	Button mSetPushTime;
-
+	private ListView listView;
+	private String[] settings_item = {"设置设备标签","设置设备别名","设置通知栏样式","设置推送时间"};
+	private TextView tv_tag_alis;
+	private EditText et_tag_alis;
 
 	@Override
 	public void onCreate(Bundle icicle) {
 		Log.d(TAG, "进入PushSetActivity");
 		super.onCreate(icicle);
 		setContentView(R.layout.push_set_dialog);
-		init();
-		initListener();
-	}
+		listView = (ListView)findViewById(R.id.list_push_set);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(PushSetActivity.this,
+				android.R.layout.simple_list_item_1,settings_item);
+		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-	private void init() {
-		mSetTag = (Button) findViewById(R.id.bt_tag);
-		mSetAlias = (Button) findViewById(R.id.bt_alias);
-		mStyleAddActions = (Button) findViewById(R.id.setStyle0);
-		mStyleBasic = (Button) findViewById(R.id.setStyle1);
-		mStyleCustom = (Button) findViewById(R.id.setStyle2);
-		mSetPushTime = (Button) findViewById(R.id.bu_setTime);
-	}
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(PushSetActivity.this);
+				LayoutInflater factory = LayoutInflater.from(PushSetActivity.this);
+				View view_dialog = factory.inflate(R.layout.set_tag_alis, null);
+				tv_tag_alis = (TextView)view_dialog.findViewById(R.id.tv_tag_alis);
+				et_tag_alis = (EditText)view_dialog.findViewById(R.id.et_tag_alis);
+				if(position == 0){
 
-	private void initListener() {
-		mSetTag.setOnClickListener(this);
-		mSetAlias.setOnClickListener(this);
-		mStyleAddActions.setOnClickListener(this);
-		mStyleBasic.setOnClickListener(this);
-		mStyleCustom.setOnClickListener(this);
-		mSetPushTime.setOnClickListener(this);
-	}
+					Log.d(TAG, "onItemClick: ------->>>" + getResources().getString(R.string.tag_hint));
+					tv_tag_alis.setText(getResources().getString(R.string.tag_hint));
+					builder.setTitle("设置设备标签")
+							.setView(view_dialog).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									setTag();
+								}
+							})
+							.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									dialog.dismiss();
+								}
+							}).show();
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-			case R.id.bt_tag:
-				setTag();
-				break;
-			case R.id.bt_alias:
-				setAlias();
-				break;
-			case R.id.setStyle0:
-				setAddActionsStyle();
-				break;
-			case R.id.setStyle1:
-				setStyleBasic();
-				break;
-			case R.id.setStyle2:
-				setStyleCustom();
-				break;
-			case R.id.bu_setTime:
-				Intent intent = new Intent(PushSetActivity.this, SettingActivity.class);
-				startActivity(intent);
-				break;
-		}
+				}else if(position == 1){
+					tv_tag_alis.setText(getResources().getString(R.string.alias_hint));
+					 builder.setTitle("设置设备别名")
+							.setView(view_dialog).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									setAlias();
+								}
+							})
+							.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									dialog.dismiss();
+								}
+							}).show();
+				}else if(position == 2){
+					String[] choices = {"Basic","Custom","AddActions"};
+							AlertDialog dialog = new AlertDialog.Builder(PushSetActivity.this)
+							.setIcon(android.R.drawable.btn_star)
+							.setTitle("设置通知栏样式")
+							.setItems(choices, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									switch (which) {
+										case 0:
+											setStyleBasic();
+											break;
+										case 1:
+											setStyleCustom();
+											break;
+										case 2:
+											setAddActionsStyle();
+											break;
+									}
+								}
+							}).create();
+					dialog.show();
+				}else if(position == 3){
+					Intent intent = new Intent(PushSetActivity.this,SettingTimeActivity.class);
+					startActivity(intent);
+				}
+
+			}
+		});
+
 	}
 
 	private void setTag() {
-		EditText tagEdit = (EditText) findViewById(R.id.et_tag);
-		String tag = tagEdit.getText().toString().trim();
+		String tag = et_tag_alis.getText().toString().trim();
 
 		// 检查 tag 的有效性
 		if (TextUtils.isEmpty(tag)) {
@@ -121,8 +152,7 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
 	}
 
 	private void setAlias() {
-		EditText aliasEdit = (EditText) findViewById(R.id.et_alias);
-		String alias = aliasEdit.getText().toString().trim();
+		String alias = et_tag_alis.getText().toString().trim();
 		if (TextUtils.isEmpty(alias)) {
 			Toast.makeText(PushSetActivity.this, R.string.error_alias_empty, Toast.LENGTH_SHORT).show();
 			return;

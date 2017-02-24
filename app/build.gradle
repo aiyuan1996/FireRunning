@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId "aiyuan1996.cn.firerunning"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -38,6 +38,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('libs/jcore-android_v1.1.0.jar')
     compile files('libs/jpush-android_v3.0.1.jar')
+
+    compile 'org.litepal.android:core:1.4.1'
 
     //依赖注入框架ButterKnife
     compile 'com.jakewharton:butterknife:8.4.0'

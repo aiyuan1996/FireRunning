@@ -2,6 +2,8 @@ package aiyuan1996.cn.firerunning;
 
 import android.app.Application;
 
+import org.litepal.LitePal;
+
 import aiyuan1996.cn.firerunning.Utils.ConfigUtils;
 import aiyuan1996.cn.firerunning.Utils.ConstantUtils;
 import butterknife.ButterKnife;
@@ -37,5 +39,7 @@ public class MyApplication extends Application{
                     .build();
             Bmob.initialize(config);
         }
+
+        LitePal.initialize(this);
     }
 }

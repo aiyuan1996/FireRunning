@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.Iterator;
 
 import aiyuan1996.cn.firerunning.Utils.PushUtil;
+import aiyuan1996.cn.firerunning.entity.HistoryUrl;
 import aiyuan1996.cn.firerunning.ui.MainActivity;
 import aiyuan1996.cn.firerunning.ui.PushActivity.TestActivity;
 import cn.jpush.android.api.JPushInterface;
@@ -30,10 +31,12 @@ import cn.jpush.android.api.JPushInterface;
 public class MyReceiver extends BroadcastReceiver {
 	private static final String TAG = "JPush";
 	public static String path;
+	private HistoryUrl historyUrl;
+	Bundle bundle;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-        Bundle bundle = intent.getExtras();
+        bundle = intent.getExtras();
 		Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
 		
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
@@ -46,13 +49,7 @@ public class MyReceiver extends BroadcastReceiver {
         	processCustomMessage(context, bundle);
         
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
-            Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
-            int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
-            Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
-			String fileHtml = "file://" + bundle.getString(JPushInterface.EXTRA_RICHPUSH_HTML_PATH);
-			Log.d(TAG, "onReceive: ---->>>>" + fileHtml);
-			path = fileHtml;
-
+            savaMessage();
 		} else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
             
@@ -79,6 +76,17 @@ public class MyReceiver extends BroadcastReceiver {
         } else {
         	Log.d(TAG, "[MyReceiver] Unhandled intent - " + intent.getAction());
         }
+	}
+
+	private void savaMessage() {
+		int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
+		String fileHtml = "file://" + bundle.getString(JPushInterface.EXTRA_RICHPUSH_HTML_PATH);
+		String alert = bundle.getString(JPushInterface.EXTRA_ALERT);
+		historyUrl = new HistoryUrl();
+		historyUrl.setNotificationId(notifactionId);
+		historyUrl.setUrlPath(fileHtml);
+		historyUrl.setAlert(alert);
+		historyUrl.save();
 	}
 
 
@@ -131,7 +139,6 @@ public class MyReceiver extends BroadcastReceiver {
 				} catch (JSONException e) {
 
 				}
-
 			}
 			context.sendBroadcast(msgIntent);
 		}
